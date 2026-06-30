@@ -12,12 +12,12 @@
 <body>
   <section class="top-categories" aria-label="Prehľad typov hál">
     <div class="brand-strip"><span>Montované <strong>haly</strong></span></div>
-    <a class="category-tile category-1" href="#produkty">Priemyselné a výrobné haly</a>
-    <a class="category-tile category-2" href="#produkty">Poľnohospodárske a skladové haly</a>
-    <a class="category-tile category-3" href="#produkty">Administratívne haly a predajne</a>
-    <a class="category-tile category-4" href="#produkty">Autosalóny, autoservisy a STK</a>
-    <a class="category-tile category-5" href="#produkty">Športové haly a telocvične</a>
-    <a class="category-tile category-6" href="#produkty">Letecké haly a hangáry</a>
+    {% for service in services %}
+      <a class="category-tile" href="#produkty">
+        <img src="{% static service.image_path %}" alt="">
+        <span>{{ service.short_title|default:service.title }}</span>
+      </a>
+    {% endfor %}
   </section>
 
   <header class="site-header">
@@ -68,12 +68,16 @@
         <h2>Prehľad ponúkaných produktov a služieb</h2>
       </div>
       <div class="product-grid">
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-01.jpg' %}" alt="Priemyselné a výrobné haly"><div><h3>Priemyselné a výrobné haly</h3><p>Veľkopriestorové stavby s dôrazom na maximálne využitie vnútorného priestranstva.</p><a href="#kontakt">Viac informácií</a></div></article>
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-02.jpg' %}" alt="Poľnohospodárske a skladové haly"><div><h3>Poľnohospodárske a skladové haly</h3><p>Projektované pre maximálne využitie priestoru a úsporu investičných aj prevádzkových nákladov.</p><a href="#kontakt">Viac informácií</a></div></article>
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-03.jpg' %}" alt="Administratívne haly a predajne"><div><h3>Administratívne haly a predajne</h3><p>Dominantné jedno či dvojposchodové stavby s modernými estetickými prvkami.</p><a href="#kontakt">Viac informácií</a></div></article>
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-04.jpg' %}" alt="Autosalóny, autoservisy a STK"><div><h3>Autosalóny, autoservisy a STK</h3><p>Atraktívne oceľové haly s tvorivým architektonickým stvárnením.</p><a href="#kontakt">Viac informácií</a></div></article>
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-05.jpg' %}" alt="Športové haly a telocvične"><div><h3>Športové haly a telocvične</h3><p>Funkčné, atraktívne a ekonomicky výhodné športové haly a telocvične.</p><a href="#kontakt">Viac informácií</a></div></article>
-        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-07.jpg' %}" alt="Letecké haly a hangáry"><div><h3>Letecké haly a hangáry</h3><p>Profesionálne riešenie pre bezpečné parkovanie a servis lietadiel či vrtuľníkov.</p><a href="#kontakt">Viac informácií</a></div></article>
+        {% for service in services %}
+          <article class="product-card">
+            <img src="{% static service.image_path %}" alt="{{ service.title }}">
+            <div>
+              <h3>{{ service.title }}</h3>
+              <p>{{ service.description }}</p>
+              <a href="#kontakt">Viac informácií</a>
+            </div>
+          </article>
+        {% endfor %}
       </div>
     </section>
 
