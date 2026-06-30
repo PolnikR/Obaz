@@ -1,0 +1,126 @@
+{% load static %}
+<!doctype html>
+<html lang="sk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Montované haly - kvalitne</title>
+  <meta name="description" content="Dodávame montované haly na kľúč od samotného projektu cez realizáciu stavebných prác až po výrobu a finálnu montáž konštrukcie a opláštenia.">
+  <link rel="icon" href="{% static 'home/vendor/favicon.png' %}" type="image/png">
+  <link rel="stylesheet" href="{% static 'home/css/site.css' %}">
+</head>
+<body>
+  <section class="top-categories" aria-label="Prehľad typov hál">
+    <div class="brand-strip"><span>Montované <strong>haly</strong></span></div>
+    <a class="category-tile category-1" href="#produkty">Priemyselné a výrobné haly</a>
+    <a class="category-tile category-2" href="#produkty">Poľnohospodárske a skladové haly</a>
+    <a class="category-tile category-3" href="#produkty">Administratívne haly a predajne</a>
+    <a class="category-tile category-4" href="#produkty">Autosalóny, autoservisy a STK</a>
+    <a class="category-tile category-5" href="#produkty">Športové haly a telocvične</a>
+    <a class="category-tile category-6" href="#produkty">Letecké haly a hangáry</a>
+  </section>
+
+  <header class="site-header">
+    <a class="logo" href="/" aria-label="MONT-KOVO"><img src="{% static 'home/vendor/images/logo.svg' %}" alt="MONT-KOVO"></a>
+    <nav class="main-nav" aria-label="Hlavná navigácia">
+      <a href="/">ÚVOD</a>
+      <a href="#produkty">MONTOVANÉ HALY</a>
+      <a href="#referencie">REFERENCIE</a>
+      <a href="#ako-staviame">AKO STAVIAME</a>
+      <a href="#firma">O SPOLOČNOSTI</a>
+      <a href="#kontakt">KONTAKTY</a>
+    </nav>
+    <a class="quote-button" href="#kontakt">Záujem o halu</a>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-content">
+        <p class="eyebrow">MONT-KOVO</p>
+        <h1 id="hero-title">Montované haly na kľúč</h1>
+        <p>Dodávame montované haly od projektu cez realizáciu stavebných prác až po výrobu, finálnu montáž konštrukcie a opláštenia.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#kontakt">Záujem o halu</a>
+          <a class="button secondary" href="#produkty">Prehľad služieb</a>
+        </div>
+      </div>
+      <div class="hero-stats" aria-label="Výhody spoločnosti">
+        <article><strong>30</strong><span>rokov montovaných hál</span></article>
+        <article><strong>1000+</strong><span>referenčných stavieb</span></article>
+        <article><strong>5</strong><span>montážnych skupín</span></article>
+      </div>
+    </section>
+
+    <section class="intro section" id="ako-staviame">
+      <div class="section-heading">
+        <p class="eyebrow">Realizácia</p>
+        <h2>Oceľové haly pre všetky odbory podnikania</h2>
+      </div>
+      <div class="intro-grid">
+        <p>MONT-KOVO vyrába a dodáva montované haly a oceľové konštrukcie už 30 rokov. V referenciách nájdete administratívne haly a predajne, výrobné haly, skladovacie haly, športové haly, autosalóny a autoservisy, oblúkové haly, konštrukcie na technológie, prístrešky a opláštenie hál.</p>
+        <p>Stavby je možné objednávať v rôznych farebných kombináciách, veľkostiach a tvaroch konštrukcií. Ku každému projektu pristupujeme osobitne a individuálne, každé zadanie je pre nás výzvou.</p>
+      </div>
+    </section>
+
+    <section class="section products" id="produkty">
+      <div class="section-heading centered">
+        <p class="eyebrow">Produkty a služby</p>
+        <h2>Prehľad ponúkaných produktov a služieb</h2>
+      </div>
+      <div class="product-grid">
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-01.jpg' %}" alt="Priemyselné a výrobné haly"><div><h3>Priemyselné a výrobné haly</h3><p>Veľkopriestorové stavby s dôrazom na maximálne využitie vnútorného priestranstva.</p><a href="#kontakt">Viac informácií</a></div></article>
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-02.jpg' %}" alt="Poľnohospodárske a skladové haly"><div><h3>Poľnohospodárske a skladové haly</h3><p>Projektované pre maximálne využitie priestoru a úsporu investičných aj prevádzkových nákladov.</p><a href="#kontakt">Viac informácií</a></div></article>
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-03.jpg' %}" alt="Administratívne haly a predajne"><div><h3>Administratívne haly a predajne</h3><p>Dominantné jedno či dvojposchodové stavby s modernými estetickými prvkami.</p><a href="#kontakt">Viac informácií</a></div></article>
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-04.jpg' %}" alt="Autosalóny, autoservisy a STK"><div><h3>Autosalóny, autoservisy a STK</h3><p>Atraktívne oceľové haly s tvorivým architektonickým stvárnením.</p><a href="#kontakt">Viac informácií</a></div></article>
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-05.jpg' %}" alt="Športové haly a telocvične"><div><h3>Športové haly a telocvične</h3><p>Funkčné, atraktívne a ekonomicky výhodné športové haly a telocvične.</p><a href="#kontakt">Viac informácií</a></div></article>
+        <article class="product-card"><img src="{% static 'home/vendor/Images/oc-uvod-07.jpg' %}" alt="Letecké haly a hangáry"><div><h3>Letecké haly a hangáry</h3><p>Profesionálne riešenie pre bezpečné parkovanie a servis lietadiel či vrtuľníkov.</p><a href="#kontakt">Viac informácií</a></div></article>
+      </div>
+    </section>
+
+    <section class="section company" id="firma">
+      <div>
+        <p class="eyebrow">O firme</p>
+        <h2>Prečo montované haly od Montkova?</h2>
+        <p>Medzi hlavné výhody patrí rýchlosť montáže, vysoká trvanlivosť materiálov, ľahká údržba, kombinovateľnosť stavebných materiálov a prispôsobivosť konkrétnym plánom zákazníka.</p>
+      </div>
+      <div class="benefits">
+        <article><img src="{% static 'home/vendor/Images/Icons/komplexni-realizace-u.svg' %}" alt=""><h3>30 rokov montovaných hál</h3><p>Špecializácia na výrobu a dodávku hál a oceľových konštrukcií.</p></article>
+        <article><img src="{% static 'home/vendor/Images/Icons/4_key-u.svg' %}" alt=""><h3>Montované haly na kľúč</h3><p>Od návrhu cez výstavbu až po finálnu montáž.</p></article>
+        <article><img src="{% static 'home/vendor/Images/Icons/650-staveb-u.svg' %}" alt=""><h3>1000 referenčných stavieb</h3><p>Kvalita, efektívny dizajn a skúsenosti z mnohých realizácií.</p></article>
+        <article><img src="{% static 'home/vendor/Images/Icons/team-u.svg' %}" alt=""><h3>Vlastný tím pracovníkov</h3><p>Projektanti, statici, výroba aj montážne skupiny pod jednou strechou.</p></article>
+      </div>
+    </section>
+
+    <section class="cta" id="kontakt">
+      <div>
+        <p class="eyebrow">Kontakt</p>
+        <h2>Zaujali Vás naše služby, alebo máte otázky?</h2>
+        <p>Napíšte nám a pripravíme riešenie pre Vašu halu.</p>
+      </div>
+      <div class="cta-actions">
+        <a class="button primary" href="mailto:poptavky@montkovo.cz">poptavky@montkovo.cz</a>
+        <a class="button secondary" href="tel:+420573343974">+420 573 343 974</a>
+      </div>
+    </section>
+
+    <section class="section news" id="referencie">
+      <div class="section-heading centered">
+        <p class="eyebrow">Aktuality</p>
+        <h2>Novinky z realizácií</h2>
+      </div>
+      <div class="news-grid">
+        <article><img src="{% static 'home/vendor/Images/ImageBrowser/Aktuality/Dekoracni2026/interier-montovaneho-hangaru-zatec_mina.jpg' %}" alt="Montované haly: Bezpečné stanoviště pro vaše letadla"><h3>Montované haly: Bezpečné stanoviště pre vaše lietadlá</h3></article>
+        <article><img src="{% static 'home/vendor/Images/ImageBrowser/Aktuality/Dekoracni2026/montovana-vyrobni-a-administrativni-hala-koprivnice_mina.JPG' %}" alt="Stavby v pohybe"><h3>Stavby v pohybe: aktuálne rozpracované haly</h3></article>
+        <article><img src="{% static 'home/vendor/Images/ImageBrowser/Aktuality/Dekoracni2026/zako-turcin-vyrobni-hala-s-administrativou-breznice_mina.jpeg' %}" alt="Moderné haly v Březnici"><h3>V Březnici rastú moderné haly pre ZAKO Turčín</h3></article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div><img class="footer-logo" src="{% static 'home/vendor/images/logo.svg' %}" alt="MONT-KOVO"><p>Montované haly a oceľové konštrukcie na kľúč.</p></div>
+    <nav aria-label="Pätička"><a href="/">ÚVOD</a><a href="#produkty">MONTOVANÉ HALY</a><a href="#referencie">REFERENCIE</a><a href="#firma">O SPOLOČNOSTI</a><a href="#kontakt">KONTAKTY</a></nav>
+    <div class="footer-contact"><span>poptavky@montkovo.cz</span><span>+420 573 343 974</span></div>
+  </footer>
+</body>
+</html>
+
