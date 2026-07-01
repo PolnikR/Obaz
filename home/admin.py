@@ -4,6 +4,15 @@ from .models import Services
 
 @admin.register(Services)
 class ServicesAdmin(admin.ModelAdmin):
+    fields = (
+        'title',
+        'short_title',
+        'description',
+        'image',
+        'image_path',
+        'order',
+        'is_active',
+    )
     list_display = ('title', 'short_title', 'has_image', 'order', 'is_active', 'updated_at')
     list_filter = ('is_active',)
     search_fields = ('title', 'short_title', 'description')
