@@ -101,9 +101,9 @@ jobs:
         if: steps.deploy_config.outputs.enabled == 'true'
         shell: bash
         run: |
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "mkdir -p /opt/obaz/deploy"
-          scp -i ~/.ssh/id_ed25519 docker-compose.prod.yml "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/obaz/docker-compose.prod.yml"
-          scp -i ~/.ssh/id_ed25519 deploy/nginx.conf "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/obaz/deploy/nginx.conf"
+          ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "mkdir -p /opt/projects/obaz/deploy"
+          scp -i ~/.ssh/id_ed25519 docker-compose.prod.yml "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/projects/obaz/docker-compose.prod.yml"
+          scp -i ~/.ssh/id_ed25519 deploy/nginx.conf "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/projects/obaz/deploy/nginx.conf"
 
       - name: Write runtime env file
         if: steps.deploy_config.outputs.enabled == 'true'
@@ -112,7 +112,7 @@ jobs:
           {
             echo "APP_IMAGE=ghcr.io/${{ env.GHCR_OWNER_LC }}/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
             printf '%s\n' "${{ secrets.APP_ENV_FILE }}"
-          } | ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "cat > /opt/obaz/.env"
+          } | ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "cat > /opt/projects/obaz/.env"
 
       - name: Deploy on server
         if: steps.deploy_config.outputs.enabled == 'true'
@@ -120,7 +120,7 @@ jobs:
         run: |
           ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "
             set -eu
-            cd /opt/obaz
+            cd /opt/projects/obaz
             echo '${{ secrets.GHCR_TOKEN }}' | docker login ghcr.io -u '${{ secrets.GHCR_USERNAME }}' --password-stdin
             docker compose -f docker-compose.prod.yml pull
             docker compose -f docker-compose.prod.yml up -d --remove-orphans

@@ -33,6 +33,12 @@ Workflow používa rovnaký naming ako existujúce Docker deploye:
 - `HEALTHCHECK_URL` - napríklad `http://obaz.polnik.sk`
 - `APP_ENV_FILE` - celý runtime env súbor pre Django aplikáciu
 
+Deploy cesta na serveri je:
+
+```text
+/opt/projects/obaz
+```
+
 Minimálny obsah `APP_ENV_FILE` pre prvý HTTP deploy:
 
 ```env
