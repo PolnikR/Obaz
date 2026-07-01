@@ -235,7 +235,7 @@ h3 { font-size: 1.1rem; line-height: 1.25; }
 }
 .footer-logo {
   width: fit-content;
-  margin-bottom: 14px;
+  margin-bottom: 10px;
 }
 .footer-brand-logo {
   display: inline-flex;
@@ -243,9 +243,10 @@ h3 { font-size: 1.1rem; line-height: 1.25; }
   padding: 0;
   background: transparent;
 }
-.footer-brand-logo img {
+.site-footer .footer-brand-logo img {
   display: block;
-  width: 156px;
+  width: 112px;
+  max-width: 112px;
   height: auto;
 }
 .site-footer nav { display: flex; flex-direction: column; gap: 8px; font-weight: 800; font-size: .86rem; }
