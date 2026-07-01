@@ -1,0 +1,141 @@
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run tests
+        run: python manage.py test
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    env:
+      IMAGE_REF: ghcr.io/${{ github.repository }}:${{ github.sha }}
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT || '22' }}
+      SERVER_PATH: ${{ secrets.SERVER_PATH || '/opt/erik-project' }}
+      GHCR_USER: ${{ secrets.GHCR_USER || github.repository_owner }}
+      GHCR_TOKEN: ${{ secrets.GHCR_TOKEN }}
+      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
+      DJANGO_ALLOWED_HOSTS: ${{ secrets.DJANGO_ALLOWED_HOSTS }}
+      DJANGO_CSRF_TRUSTED_ORIGINS: ${{ secrets.DJANGO_CSRF_TRUSTED_ORIGINS }}
+      HTTP_PORT: ${{ secrets.HTTP_PORT || '80' }}
+      SERVER_SSH_KEY_PRESENT: ${{ secrets.SERVER_SSH_KEY != '' }}
+
+    steps:
+      - name: Checkout deploy files
+        uses: actions/checkout@v4
+
+      - name: Check deploy configuration
+        id: deploy_config
+        run: |
+          if [ -n "$SERVER_HOST" ] \
+            && [ -n "$SERVER_USER" ] \
+            && [ "$SERVER_SSH_KEY_PRESENT" = "true" ] \
+            && [ -n "$DJANGO_SECRET_KEY" ] \
+            && [ -n "$DJANGO_ALLOWED_HOSTS" ] \
+            && [ -n "$GHCR_TOKEN" ]; then
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "Deploy skipped. Fill required GitHub Secrets to enable server deployment."
+          fi
+
+      - name: Prepare SSH
+        if: steps.deploy_config.outputs.enabled == 'true'
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -p "$SERVER_PORT" -H "$SERVER_HOST" >> ~/.ssh/known_hosts
+
+      - name: Create server env file
+        if: steps.deploy_config.outputs.enabled == 'true'
+        run: |
+          python - <<'PY'
+          import json
+          import os
+
+          values = {
+              'APP_IMAGE': os.environ['IMAGE_REF'],
+              'SECRET_KEY': os.environ['DJANGO_SECRET_KEY'],
+              'DEBUG': 'False',
+              'ALLOWED_HOSTS': os.environ['DJANGO_ALLOWED_HOSTS'],
+              'CSRF_TRUSTED_ORIGINS': os.environ.get('DJANGO_CSRF_TRUSTED_ORIGINS', ''),
+              'DATABASE_NAME': '/app/data/db.sqlite3',
+              'STATIC_ROOT': '/app/staticfiles',
+              'MEDIA_ROOT': '/app/media',
+              'HTTP_PORT': os.environ['HTTP_PORT'],
+          }
+
+          with open('.deploy.env', 'w', encoding='utf-8') as env_file:
+              for key, value in values.items():
+                  env_file.write(f'{key}={json.dumps(value)}\n')
+          PY
+
+      - name: Copy deploy files
+        if: steps.deploy_config.outputs.enabled == 'true'
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "mkdir -p '$SERVER_PATH/deploy'"
+          scp -i ~/.ssh/deploy_key -P "$SERVER_PORT" docker-compose.prod.yml "$SERVER_USER@$SERVER_HOST:$SERVER_PATH/docker-compose.prod.yml"
+          scp -i ~/.ssh/deploy_key -P "$SERVER_PORT" deploy/nginx.conf "$SERVER_USER@$SERVER_HOST:$SERVER_PATH/deploy/nginx.conf"
+          scp -i ~/.ssh/deploy_key -P "$SERVER_PORT" .deploy.env "$SERVER_USER@$SERVER_HOST:$SERVER_PATH/.env"
+
+      - name: Deploy on server
+        if: steps.deploy_config.outputs.enabled == 'true'
+        run: |
+          ssh -i ~/.ssh/deploy_key -p "$SERVER_PORT" "$SERVER_USER@$SERVER_HOST" "
+            set -eu
+            cd '$SERVER_PATH'
+            printf '%s\n' '$GHCR_TOKEN' | docker login ghcr.io -u '$GHCR_USER' --password-stdin
+            docker compose -f docker-compose.prod.yml pull
+            docker compose -f docker-compose.prod.yml up -d --remove-orphans
+            docker image prune -f
+          "

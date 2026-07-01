@@ -5,8 +5,10 @@ __pycache__/
 
 db.sqlite3
 media/
+staticfiles/
 
 .env
 .env.*
+.deploy.env
 *.log
 
