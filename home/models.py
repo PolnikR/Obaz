@@ -3,6 +3,9 @@ from django.db import models
 from django.templatetags.static import static
 
 
+DEFAULT_SERVICE_IMAGE_PATH = 'home/vendor/Images/oc-uvod-01.jpg'
+
+
 class Services(models.Model):
     title = models.CharField('nazov', max_length=140)
     short_title = models.CharField('kratky nazov', max_length=90, blank=True)
@@ -12,12 +15,14 @@ class Services(models.Model):
         upload_to='services/',
         blank=True,
         validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'webp'])],
-        help_text='Volitelny obrazok sluzby. Ak nie je vyplneny, pouzije sa povodna cesta v static.',
+        help_text='Volitelny obrazok sluzby. Ak nie je vyplneny, pouzije sa default obrazok.',
     )
     image_path = models.CharField(
         'cesta k obrazku v static',
         max_length=255,
-        help_text='Napriklad: home/vendor/Images/oc-uvod-01.jpg',
+        blank=True,
+        default=DEFAULT_SERVICE_IMAGE_PATH,
+        editable=False,
     )
     order = models.PositiveIntegerField('poradie', default=0)
     is_active = models.BooleanField('aktivne', default=True)
@@ -37,4 +42,4 @@ class Services(models.Model):
     def display_image_url(self):
         if self.image:
             return self.image.url
-        return static(self.image_path)
+        return static(self.image_path or DEFAULT_SERVICE_IMAGE_PATH)

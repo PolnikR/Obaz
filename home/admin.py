@@ -9,7 +9,6 @@ class ServicesAdmin(admin.ModelAdmin):
         'short_title',
         'description',
         'image',
-        'image_path',
         'order',
         'is_active',
     )
