@@ -12,6 +12,15 @@ class HomeViewTests(TestCase):
         self.assertContains(response, 'Priemyselné a výrobné haly')
         self.assertContains(response, 'Poľnohospodárske a skladové haly')
 
+    def test_home_page_uses_obaz_branding(self):
+        response = self.client.get(reverse('home:index'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'OBAZ s.r.o.')
+        self.assertContains(response, 'IČO: 50785087')
+        self.assertNotContains(response, 'MONT-KOVO')
+        self.assertNotContains(response, 'Montkovo')
+
     def test_home_page_renders_services_from_admin_table(self):
         Services.objects.create(
             title='Servisná hala z adminu',
