@@ -101,9 +101,8 @@ jobs:
         if: steps.deploy_config.outputs.enabled == 'true'
         shell: bash
         run: |
-          ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "mkdir -p /opt/projects/obaz/deploy"
+          ssh -i ~/.ssh/id_ed25519 "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}" "mkdir -p /opt/projects/obaz"
           scp -i ~/.ssh/id_ed25519 docker-compose.prod.yml "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/projects/obaz/docker-compose.prod.yml"
-          scp -i ~/.ssh/id_ed25519 deploy/nginx.conf "${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/opt/projects/obaz/deploy/nginx.conf"
 
       - name: Write runtime env file
         if: steps.deploy_config.outputs.enabled == 'true'
