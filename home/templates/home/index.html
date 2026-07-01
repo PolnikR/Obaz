@@ -11,8 +11,11 @@
 </head>
 <body>
   <section class="top-categories" aria-label="Prehľad typov hál">
-    <div class="brand-strip"><span>Montované <strong>haly</strong></span></div>
-    {% for service in services %}
+    <div class="brand-strip">
+      <span>Montované</span>
+      <strong>Haly</strong>
+    </div>
+    {% for service in services|slice:":6" %}
       <a class="category-tile" href="#produkty">
         <img src="{% static service.image_path %}" alt="">
         <span>{{ service.short_title|default:service.title }}</span>
