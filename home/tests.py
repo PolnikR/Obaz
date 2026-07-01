@@ -26,4 +26,21 @@ class HomeViewTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Servisná hala z adminu')
         self.assertContains(response, 'Popis služby spravovaný v Django admine.')
+        self.assertContains(response, '/static/home/vendor/Images/oc-uvod-01.jpg')
         self.assertNotContains(response, 'Poľnohospodárske a skladové haly')
+
+    def test_home_page_prefers_uploaded_service_image(self):
+        Services.objects.create(
+            title='Hala s nahratým obrázkom',
+            short_title='Nahratý obrázok',
+            description='Popis služby s obrázkom uloženým v media.',
+            image='services/custom-service.webp',
+            image_path='home/vendor/Images/oc-uvod-01.jpg',
+            order=1,
+        )
+
+        response = self.client.get(reverse('home:index'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, '/media/services/custom-service.webp')
+        self.assertNotContains(response, '/static/home/vendor/Images/oc-uvod-01.jpg')

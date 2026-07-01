@@ -17,7 +17,7 @@
     </div>
     {% for service in services|slice:":6" %}
       <a class="category-tile" href="#produkty">
-        <img src="{% static service.image_path %}" alt="">
+        <img src="{{ service.display_image_url }}" alt="">
         <span>{{ service.short_title|default:service.title }}</span>
       </a>
     {% endfor %}
@@ -73,7 +73,7 @@
       <div class="product-grid">
         {% for service in services %}
           <article class="product-card">
-            <img src="{% static service.image_path %}" alt="{{ service.title }}">
+            <img src="{{ service.display_image_url }}" alt="{{ service.title }}">
             <div>
               <h3>{{ service.title }}</h3>
               <p>{{ service.description }}</p>

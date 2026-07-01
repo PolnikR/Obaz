@@ -1,10 +1,19 @@
+from django.core.validators import FileExtensionValidator
 from django.db import models
+from django.templatetags.static import static
 
 
 class Services(models.Model):
     title = models.CharField('nazov', max_length=140)
     short_title = models.CharField('kratky nazov', max_length=90, blank=True)
     description = models.TextField('popis')
+    image = models.FileField(
+        'obrazok',
+        upload_to='services/',
+        blank=True,
+        validators=[FileExtensionValidator(['jpg', 'jpeg', 'png', 'webp'])],
+        help_text='Volitelny obrazok sluzby. Ak nie je vyplneny, pouzije sa povodna cesta v static.',
+    )
     image_path = models.CharField(
         'cesta k obrazku v static',
         max_length=255,
@@ -23,3 +32,9 @@ class Services(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def display_image_url(self):
+        if self.image:
+            return self.image.url
+        return static(self.image_path)

@@ -1,4 +1,5 @@
 from django.views.generic import TemplateView
+from django.templatetags.static import static
 from .models import Services
 
 
@@ -48,5 +49,8 @@ class HomeView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         services = list(Services.objects.filter(is_active=True).order_by('order', 'id'))
-        context['services'] = services or DEFAULT_SERVICES
+        context['services'] = services or [
+            {**service, 'display_image_url': static(service['image_path'])}
+            for service in DEFAULT_SERVICES
+        ]
         return context
