@@ -109,51 +109,50 @@ a { color: inherit; text-decoration: none; }
 .brand-logo {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
-  min-width: 190px;
+  text-decoration: none;
 }
-.brand-mark {
+.obaz-badge {
   position: relative;
-  display: block;
-  width: 46px;
-  height: 46px;
-  background: var(--dark);
+  display: inline-grid;
+  grid-template-columns: auto auto;
+  align-items: flex-end;
+  column-gap: .28rem;
+  min-width: 142px;
+  padding: .55rem .72rem .78rem;
+  overflow: hidden;
+  color: #fff;
+  background: #11171c;
+  border: 1px solid rgba(240, 180, 0, .28);
+  border-radius: 8px;
+  box-shadow: 0 2px 0 rgba(0,0,0,.22);
 }
-.brand-mark::before {
+.obaz-badge::after {
   position: absolute;
-  left: 10px;
-  top: 10px;
-  width: 26px;
-  height: 26px;
   content: "";
-  border: 7px solid var(--brand);
-  border-bottom: 0;
-}
-.brand-mark span {
-  position: absolute;
-  left: 17px;
-  bottom: 11px;
-  width: 14px;
-  height: 7px;
+  left: .72rem;
+  right: 3.35rem;
+  bottom: .47rem;
+  height: 4px;
   background: var(--brand);
+  border-radius: 999px;
+  transform: skewX(-28deg);
+  transform-origin: left center;
 }
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1;
-}
-.brand-text strong {
-  color: var(--dark);
-  font-size: 2rem;
+.obaz-word {
+  color: #fff;
+  font-size: 1.72rem;
   font-weight: 900;
-  letter-spacing: .08em;
+  line-height: .9;
+  letter-spacing: 0;
 }
-.brand-text small {
-  margin-top: 5px;
-  color: var(--muted);
-  font-size: .72rem;
+.obaz-sro {
+  align-self: flex-end;
+  margin-bottom: .03rem;
+  color: rgba(255,255,255,.9);
+  font-size: .58rem;
   font-weight: 800;
-  letter-spacing: .18em;
+  line-height: 1;
+  letter-spacing: .12em;
   text-transform: uppercase;
 }
 .main-nav {
@@ -274,11 +273,10 @@ h3 { font-size: 1.1rem; line-height: 1.25; }
   background: var(--dark);
 }
 .footer-logo { margin-bottom: 14px; }
-.footer-brand-logo .brand-mark { background: var(--brand); }
-.footer-brand-logo .brand-mark::before { border-color: var(--dark); }
-.footer-brand-logo .brand-mark span { background: var(--dark); }
-.footer-brand-logo .brand-text strong { color: #fff; }
-.footer-brand-logo .brand-text small { color: #cdd5dc; }
+.footer-brand-logo .obaz-badge {
+  background: #0f1418;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.08);
+}
 .site-footer nav { display: flex; flex-direction: column; gap: 8px; font-weight: 800; font-size: .86rem; }
 .site-footer a:hover { color: var(--brand); }
 .footer-contact { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; color: #fff; font-weight: 800; }
