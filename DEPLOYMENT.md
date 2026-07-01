@@ -4,9 +4,9 @@ Projekt je pripravený na deploy cez GitHub Actions, Docker image v GitHub Conta
 
 ## Čo pipeline robí
 
-1. Pri pushi do `master` spustí Django testy.
+1. Pri pushi do `master` alebo `develop` spustí Django testy.
 2. Buildne Docker image.
-3. Pushne image do `ghcr.io/<owner>/<repo>`.
+3. Pushne image do `ghcr.io/<owner>/obaz-app`.
 4. Ak sú nastavené serverové GitHub Secrets, prihlási sa cez SSH na server.
 5. Skopíruje `docker-compose.prod.yml`, `deploy/nginx.conf` a vytvorí serverový `.env`.
 6. Na serveri spustí `docker compose pull` a `docker compose up -d`.
@@ -23,19 +23,30 @@ Deploy používateľ musí mať právo spúšťať Docker.
 
 ## GitHub Secrets
 
-Nastav v GitHub repozitári `Settings -> Secrets and variables -> Actions`:
+Workflow používa rovnaký naming ako existujúce Docker deploye:
 
-- `SERVER_HOST` - IP alebo doména servera
-- `SERVER_USER` - SSH používateľ
-- `SERVER_SSH_KEY` - privátny SSH kľúč pre deploy
-- `SERVER_PORT` - voliteľné, default je `22`
-- `SERVER_PATH` - voliteľné, default je `/opt/erik-project`
-- `DJANGO_SECRET_KEY` - produkčný Django secret key
-- `DJANGO_ALLOWED_HOSTS` - napríklad `obaz.sk,www.obaz.sk`
-- `DJANGO_CSRF_TRUSTED_ORIGINS` - napríklad `https://obaz.sk,https://www.obaz.sk`
-- `GHCR_USER` - voliteľné, default je owner repozitára
+- `DEPLOY_HOST` - IP alebo doména servera, napríklad `62.238.36.64`
+- `DEPLOY_USER` - SSH používateľ
+- `DEPLOY_SSH_PRIVATE_KEY` - existujúci privátny SSH kľúč pre deploy
+- `GHCR_USERNAME` - GitHub používateľ alebo organization účet pre GHCR
 - `GHCR_TOKEN` - GitHub token s právom `read:packages`
-- `HTTP_PORT` - voliteľné, default je `80`
+- `HEALTHCHECK_URL` - napríklad `http://obaz.polnik.sk`
+- `APP_ENV_FILE` - celý runtime env súbor pre Django aplikáciu
+
+Minimálny obsah `APP_ENV_FILE` pre prvý HTTP deploy:
+
+```env
+SECRET_KEY=sem-daj-dlhy-django-secret
+DEBUG=False
+ALLOWED_HOSTS=obaz.polnik.sk,62.238.36.64
+CSRF_TRUSTED_ORIGINS=http://obaz.polnik.sk,http://62.238.36.64
+DATABASE_NAME=/app/data/db.sqlite3
+STATIC_ROOT=/app/staticfiles
+MEDIA_ROOT=/app/media
+HTTP_PORT=80
+```
+
+`APP_IMAGE` do `APP_ENV_FILE` nepíš. Workflow ho doplní automaticky podľa buildu.
 
 ## Persistent data
 
