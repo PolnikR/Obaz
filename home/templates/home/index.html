@@ -24,7 +24,10 @@
   </section>
 
   <header class="site-header">
-    <a class="logo" href="/" aria-label="OBAZ s.r.o."><img src="{% static 'home/vendor/images/logo.svg' %}" alt="OBAZ s.r.o."></a>
+    <a class="logo brand-logo" href="/" aria-label="OBAZ s.r.o.">
+      <span class="brand-mark" aria-hidden="true"><span></span></span>
+      <span class="brand-text"><strong>OBAZ</strong><small>s.r.o.</small></span>
+    </a>
     <nav class="main-nav" aria-label="Hlavná navigácia">
       <a href="/">ÚVOD</a>
       <a href="#produkty">MONTOVANÉ HALY</a>
@@ -124,7 +127,13 @@
   </main>
 
   <footer class="site-footer">
-    <div><img class="footer-logo" src="{% static 'home/vendor/images/logo-footer.svg' %}" alt="OBAZ s.r.o."><p>Stavebné riešenia pre obytné, neobytné a úžitkové objekty.</p></div>
+    <div>
+      <a class="footer-logo brand-logo footer-brand-logo" href="/" aria-label="OBAZ s.r.o.">
+        <span class="brand-mark" aria-hidden="true"><span></span></span>
+        <span class="brand-text"><strong>OBAZ</strong><small>s.r.o.</small></span>
+      </a>
+      <p>Stavebné riešenia pre obytné, neobytné a úžitkové objekty.</p>
+    </div>
     <nav aria-label="Pätička"><a href="/">ÚVOD</a><a href="#produkty">MONTOVANÉ HALY</a><a href="#referencie">REFERENCIE</a><a href="#firma">O SPOLOČNOSTI</a><a href="#kontakt">KONTAKTY</a></nav>
     <div class="footer-contact"><span>OBAZ s.r.o.</span><span>Dolná Maríková 752</span><span>018 02 Dolná Maríková</span><span>IČO: 50785087</span></div>
   </footer>
