@@ -100,7 +100,7 @@ a { color: inherit; text-decoration: none; }
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 28px;
+  gap: 22px;
   padding: 16px max(24px, calc((100vw - var(--container)) / 2));
   background: rgba(255,255,255,.88);
   backdrop-filter: blur(10px);
@@ -113,19 +113,23 @@ a { color: inherit; text-decoration: none; }
   text-decoration: none;
 }
 .site-header .brand-logo img {
-  width: clamp(190px, 17vw, 260px);
+  width: clamp(150px, 12vw, 185px);
   height: auto;
 }
 .main-nav {
   display: flex;
   justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  font-size: .83rem;
+  flex-wrap: nowrap;
+  gap: 18px;
+  font-size: .8rem;
   font-weight: 800;
   letter-spacing: .02em;
 }
-.main-nav a { padding: 9px 0; border-bottom: 3px solid transparent; }
+.main-nav a {
+  padding: 9px 0;
+  border-bottom: 3px solid transparent;
+  white-space: nowrap;
+}
 .main-nav a:hover { border-bottom-color: var(--brand); }
 .quote-button,
 .button {
@@ -138,6 +142,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 800;
   text-transform: uppercase;
   font-size: .82rem;
+  white-space: nowrap;
   transition: background .2s ease, color .2s ease, transform .2s ease;
 }
 .quote-button,
@@ -257,6 +262,7 @@ h3 { font-size: 1.1rem; line-height: 1.25; }
   .top-categories { grid-template-columns: repeat(3, 1fr); }
   .brand-strip { grid-column: 1 / -1; }
   .site-header { grid-template-columns: 1fr; justify-items: center; }
+  .main-nav { flex-wrap: wrap; }
   .product-grid, .news-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .company, .cta { grid-template-columns: 1fr; }
   .cta-actions { justify-content: flex-start; }
